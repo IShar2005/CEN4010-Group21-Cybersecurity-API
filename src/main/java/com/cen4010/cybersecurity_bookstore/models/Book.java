@@ -3,6 +3,13 @@ package com.cen4010.cybersecurity_bookstore.models;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+// Sprint 2 - Book Details (Michael Scott)
+// This entity is basically a book class. It holds all the details about a book and is the core of my feature.
+
+//Sprint 3 planning:
+// I plan to create a function that allows for user input to easily create a book, input the details and store it into the database.
+// This will be a crucial feature for filling out the database with information.
+
 @Entity
 @Table(name = "book")
 public class Book {
