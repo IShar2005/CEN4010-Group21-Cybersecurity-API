@@ -3,6 +3,23 @@ package com.cen4010.cybersecurity_bookstore.models;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+//Sprint 2 - Book Browsing Feature
+//This entity shows a book in the system and is basically the core for my book browsing feature.
+//It supports the operations like browsing books by genre, top-sellers, and ratings
+//These fields are used by the GET endpoints that were implemented in this sprint.
+
+//This entity connects other domains like authors and publishers. By having it defined well
+//it allows me to keep the browsing and sorting logic simple and efficient
+
+//Sprint 3 planning:
+//This entity is going to be expanded through relationships with entities like Rating and Comment
+//to support average ratings and reviews from the user. Also, the relationship with Publisher
+//will be used to implement the publisher based discount
+
+//Entity relationships:
+//each book is associated with a single author and publosher
+//a book can have many ratings and comments
+
 @Entity
 @Table(name = "book")
 public class Book {
