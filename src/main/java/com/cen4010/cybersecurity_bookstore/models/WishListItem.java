@@ -19,7 +19,7 @@ public class WishListItem {
     @JsonIgnore
     private WishList wishList;
 
-    // Each wish list item references a book
+    // Each wish list item references a full Book object
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
