@@ -6,10 +6,15 @@ import com.cen4010.cybersecurity_bookstore.repositories.BookRepository;
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import javax.management.RuntimeErrorException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -40,6 +45,12 @@ public class BookController {
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable Integer id) {
         return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+    }
+
+    //READ (ISBN)
+    @GetMapping("/isbn/{isbn}")
+    public Book getBookByISBN(@PathVariable String isbn) {
+        return bookRepository.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Book not find with isbn: " + isbn));
     }
 
     // UPDATE
