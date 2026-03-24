@@ -4,16 +4,16 @@ import com.cen4010.cybersecurity_bookstore.models.Book;
 import com.cen4010.cybersecurity_bookstore.repositories.BookRepository;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import javax.management.RuntimeErrorException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -37,8 +37,9 @@ public class BookController {
     // Sprint 3: Methods for easy book creation and deletion for administrators - Michael Scott
     //  CREATE
     @PostMapping("/create")
-    public Book createBook(@RequestBody Book book) {
-        return bookRepository.save(book);
+    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
+        Book savedBook = bookRepository.save(book); 
+        return new ResponseEntity<>(savedBook, HttpStatus.CREATED); //Sprint 4 - Input Validation - Michael Scott
     }
 
     // READ
@@ -55,7 +56,7 @@ public class BookController {
 
     // UPDATE
     @PutMapping("/edit/{id}")
-    public Book updateBook(@PathVariable Integer id, @RequestBody Book bookDetails) {
+    public ResponseEntity<Book> updateBook(@Valid @PathVariable Integer id, @RequestBody Book bookDetails) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
 
         book.setTitle(bookDetails.getTitle());
@@ -65,8 +66,10 @@ public class BookController {
         book.setGenre(bookDetails.getGenre());
         book.setPublisher(bookDetails.getPublisher());
         book.setYearPublished(bookDetails.getYearPublished());
-
-        return bookRepository.save(book);
+        
+        //Sprint 4 - Input Validation - Michael Scott
+        Book updatedBook = bookRepository.save(book);
+        return ResponseEntity.ok(updatedBook);
     }
     
     // DELETE
