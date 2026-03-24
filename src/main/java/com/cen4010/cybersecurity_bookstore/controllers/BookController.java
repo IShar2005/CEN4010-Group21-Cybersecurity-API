@@ -159,7 +159,7 @@ public class BookController {
     }
 
     //Sprint 4: PUT endpoint to apply discount by publisher
-    //endpoint: PUT /api/books/discount?publisher=HarperCollins&discount=10
+    //endpoint: PUT /api/books/discount?publisher=Secker & Warburg&discount=10
     //update the prices for all the books by a publisher
     @PutMapping("/discount")
     @Transactional
