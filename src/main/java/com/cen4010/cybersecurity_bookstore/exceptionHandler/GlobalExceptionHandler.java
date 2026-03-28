@@ -1,6 +1,5 @@
 package com.cen4010.cybersecurity_bookstore.exceptionHandler;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 //Sprint 4 - Created for Input Validation - Michael Scott
 @RestControllerAdvice
-public class GlobalExeptionHandler { 
+public class GlobalExceptionHandler { 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex){
