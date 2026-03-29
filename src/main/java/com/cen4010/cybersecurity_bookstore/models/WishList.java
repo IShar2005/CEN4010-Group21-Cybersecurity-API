@@ -45,3 +45,4 @@ public class WishList {
     public List<WishListItem> getWishListItems() { return wishListItems; }
     public void setWishListItems(List<WishListItem> wishListItems) { this.wishListItems = wishListItems; }
 }
+// This class represents a user's wishlist in the system, storing basic details and maintaining a one-to-many relationship with items the user has added to their wishlist.
