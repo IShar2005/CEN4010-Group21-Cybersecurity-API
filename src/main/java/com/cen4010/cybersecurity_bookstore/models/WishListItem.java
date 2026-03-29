@@ -43,3 +43,4 @@ public class WishListItem {
     public LocalDateTime getAddedAt() { return addedAt; }
     public void setAddedAt(LocalDateTime addedAt) { this.addedAt = addedAt; }
 }
+// This class represents an item in a user's wish list, linking a book to the wish list it belongs to, along with the date it was added.
