@@ -10,15 +10,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cen4010.cybersecurity_bookstore.models.Book;
 import com.cen4010.cybersecurity_bookstore.repositories.BookRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/books")
@@ -34,6 +39,51 @@ public class BookController {
     @GetMapping
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    // Sprint 3: Methods for easy book creation and deletion for administrators - Michael Scott
+    //  CREATE
+    @PostMapping("/create")
+    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
+        Book savedBook = bookRepository.save(book); 
+        return new ResponseEntity<>(savedBook, HttpStatus.CREATED); //Sprint 4 - Input Validation - Michael Scott
+    }
+
+    // READ
+    @GetMapping("/{id}")
+    public Book getBookById(@PathVariable Integer id) {
+        return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+    }
+
+    //READ (ISBN)
+    @GetMapping("/isbn/{isbn}")
+    public Book getBookByISBN(@PathVariable String isbn) {
+        return bookRepository.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Book not find with isbn: " + isbn));
+    }
+
+    // UPDATE
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Book> updateBook(@Valid @PathVariable Integer id, @RequestBody Book bookDetails) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+
+        book.setTitle(bookDetails.getTitle());
+        book.setIsbn(bookDetails.getIsbn());
+        book.setDescription(bookDetails.getDescription());
+        book.setPrice(bookDetails.getPrice());
+        book.setGenre(bookDetails.getGenre());
+        book.setPublisher(bookDetails.getPublisher());
+        book.setYearPublished(bookDetails.getYearPublished());
+        
+        //Sprint 4 - Input Validation - Michael Scott
+        Book updatedBook = bookRepository.save(book);
+        return ResponseEntity.ok(updatedBook);
+    }
+    
+    // DELETE
+    @DeleteMapping("/delete/{id}")
+    public String deleteBook(@PathVariable Integer id){
+        bookRepository.deleteById(id);
+        return "Book with ID " + id + " has been deleted.";
     }
     
     //sprint 3: GET books by genre
