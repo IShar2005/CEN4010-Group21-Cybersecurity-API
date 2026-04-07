@@ -6,8 +6,10 @@ import com.cen4010.cybersecurity_bookstore.models.ShoppingCart;
 import com.cen4010.cybersecurity_bookstore.repositories.BookRepository;
 import com.cen4010.cybersecurity_bookstore.repositories.CartItemRepository;
 import com.cen4010.cybersecurity_bookstore.repositories.ShoppingCartRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,9 +29,12 @@ public class ShoppingCartController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     // =========================================================
     // GET http://localhost:8080/api/cart
-    // Returns all shopping carts (Sprint 3)
+    // Returns all shopping carts
     // =========================================================
     @GetMapping
     public List<ShoppingCart> getAllCarts() {
@@ -38,7 +43,7 @@ public class ShoppingCartController {
 
     // =========================================================
     // GET http://localhost:8080/api/cart/{userId}
-    // Returns a specific user's cart with all items (Sprint 3)
+    // Returns a specific user's cart with all items
     // =========================================================
     @GetMapping("/{userId}")
     public ResponseEntity<ShoppingCart> getCartByUserId(@PathVariable Integer userId) {
@@ -50,12 +55,12 @@ public class ShoppingCartController {
     // =========================================================
     // POST http://localhost:8080/api/cart/{userId}/items
     // Adds a book to the user's cart
-    // Request body: { "bookId": 1, "quantity": 1 }
+    // Request body: { "bookId": 3, "quantity": 1 }
     // =========================================================
     @PostMapping("/{userId}/items")
+    @Transactional
     public ResponseEntity<?> addItemToCart(@PathVariable Integer userId, @RequestBody CartItemRequest request) {
 
-        // Find or create the cart for this user
         ShoppingCart cart = shoppingCartRepository.findByUserId(userId)
                 .orElseGet(() -> {
                     ShoppingCart newCart = new ShoppingCart();
@@ -65,31 +70,29 @@ public class ShoppingCartController {
                     return shoppingCartRepository.save(newCart);
                 });
 
-        // Check if the book exists
         Optional<Book> book = bookRepository.findById(request.getBookId());
         if (book.isEmpty()) {
             return ResponseEntity.badRequest().body("Book with ID " + request.getBookId() + " not found");
         }
 
-        // Check if the book is already in the cart
         Optional<CartItem> existingItem = cart.getCartItems().stream()
                 .filter(item -> item.getBook().getBookId().equals(request.getBookId()))
                 .findFirst();
 
         if (existingItem.isPresent()) {
-            // Book already in cart, update quantity
             existingItem.get().setQuantity(existingItem.get().getQuantity() + request.getQuantity());
             cartItemRepository.save(existingItem.get());
         } else {
-            // Add new item to cart
             CartItem newItem = new CartItem();
             newItem.setShoppingCart(cart);
             newItem.setBook(book.get());
             newItem.setQuantity(request.getQuantity());
+            cart.getCartItems().add(newItem);
             cartItemRepository.save(newItem);
         }
 
-        // Return updated cart
+        entityManager.flush();
+        entityManager.clear();
         return ResponseEntity.ok(shoppingCartRepository.findByUserId(userId).get());
     }
 
@@ -99,6 +102,7 @@ public class ShoppingCartController {
     // Request body: { "quantity": 3 }
     // =========================================================
     @PutMapping("/{userId}/items/{bookId}")
+    @Transactional
     public ResponseEntity<?> updateCartItemQuantity(
             @PathVariable Integer userId,
             @PathVariable Integer bookId,
@@ -118,13 +122,15 @@ public class ShoppingCartController {
         }
 
         if (request.getQuantity() <= 0) {
-            // If quantity is 0 or less, remove the item
+            cart.get().getCartItems().remove(item.get());
             cartItemRepository.delete(item.get());
         } else {
             item.get().setQuantity(request.getQuantity());
             cartItemRepository.save(item.get());
         }
 
+        entityManager.flush();
+        entityManager.clear();
         return ResponseEntity.ok(shoppingCartRepository.findByUserId(userId).get());
     }
 
@@ -133,6 +139,7 @@ public class ShoppingCartController {
     // Removes a book from the user's cart
     // =========================================================
     @DeleteMapping("/{userId}/items/{bookId}")
+    @Transactional
     public ResponseEntity<?> removeItemFromCart(
             @PathVariable Integer userId,
             @PathVariable Integer bookId) {
@@ -150,7 +157,11 @@ public class ShoppingCartController {
             return ResponseEntity.notFound().build();
         }
 
+        cart.get().getCartItems().remove(item.get());
         cartItemRepository.delete(item.get());
+
+        entityManager.flush();
+        entityManager.clear();
         return ResponseEntity.ok(shoppingCartRepository.findByUserId(userId).get());
     }
 
