@@ -21,6 +21,9 @@ import com.cen4010.cybersecurity_bookstore.models.Book;
 import com.cen4010.cybersecurity_bookstore.repositories.BookRepository;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.validation.Valid;
 
@@ -30,9 +33,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+<<<<<<< HEAD
 =======
 
 >>>>>>> origin/main
+=======
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 
 import javax.management.RuntimeErrorException;
 
@@ -57,6 +63,9 @@ public class BookController {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
     // Sprint 3: Methods for easy book creation and deletion for administrators - Michael Scott
     //  CREATE
     @PostMapping("/create")
@@ -100,7 +109,10 @@ public class BookController {
     public String deleteBook(@PathVariable Integer id){
         bookRepository.deleteById(id);
         return "Book with ID " + id + " has been deleted.";
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
     //sprint 3: GET books by genre
     //endpoint: GET/api/books/genre/{genre}
     @GetMapping("/genre/{genre}")
@@ -276,7 +288,10 @@ public class BookController {
             response.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+<<<<<<< HEAD
 >>>>>>> origin/main
+=======
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
     }
     
 }

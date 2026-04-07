@@ -1,10 +1,14 @@
 package com.cen4010.cybersecurity_bookstore.models;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 =======
 >>>>>>> origin/main
+=======
+import jakarta.validation.constraints.*;
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
@@ -24,12 +28,20 @@ import jakarta.persistence.Table;
 
 //Sprint 3 planning:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 // I plan to create a function that allows for user input to easily create a book, input the details and store it into the database.
 // This will be a crucial feature for filling out the database with information
 
 // Sprint 4:
 // I will add input validation so that data inputted into the following fields is checked and incorrect data is rejected.
+<<<<<<< HEAD
 =======
+=======
+
+
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 //This entity is going to be expanded through relationships with entities like Rating and Comment
 //to support average ratings and reviews from the user. Also, the relationship with Publisher
 //will be used to implement the publisher based discount
@@ -38,7 +50,10 @@ import jakarta.persistence.Table;
 //each book is associated with a single author and publosher
 //a book can have many ratings and comments
 
+<<<<<<< HEAD
 >>>>>>> origin/main
+=======
+>>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 @Entity
 @Table(name = "book")
 public class Book {
