@@ -1,18 +1,44 @@
 package com.cen4010.cybersecurity_bookstore.models;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+=======
+>>>>>>> origin/main
 import java.math.BigDecimal;
 
-// Sprint 2 - Book Details (Michael Scott)
-// This entity is basically a book class. It holds all the details about a book and is the core of my feature.
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+//Sprint 2 - Book Browsing Feature
+//This entity shows a book in the system and is basically the core for my book browsing feature.
+//It supports the operations like browsing books by genre, top-sellers, and ratings
+//These fields are used by the GET endpoints that were implemented in this sprint.
+
+//This entity connects other domains like authors and publishers. By having it defined well
+//it allows me to keep the browsing and sorting logic simple and efficient
 
 //Sprint 3 planning:
+<<<<<<< HEAD
 // I plan to create a function that allows for user input to easily create a book, input the details and store it into the database.
 // This will be a crucial feature for filling out the database with information
 
 // Sprint 4:
 // I will add input validation so that data inputted into the following fields is checked and incorrect data is rejected.
+=======
+//This entity is going to be expanded through relationships with entities like Rating and Comment
+//to support average ratings and reviews from the user. Also, the relationship with Publisher
+//will be used to implement the publisher based discount
+
+//Entity relationships:
+//each book is associated with a single author and publosher
+//a book can have many ratings and comments
+
+>>>>>>> origin/main
 @Entity
 @Table(name = "book")
 public class Book {
