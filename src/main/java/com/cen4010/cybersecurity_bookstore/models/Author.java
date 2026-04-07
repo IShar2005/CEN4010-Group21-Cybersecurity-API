@@ -1,7 +1,12 @@
 package com.cen4010.cybersecurity_bookstore.models;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import java.util.*;
+
+// Sprint 5 (Michael Scott) - Adding validation for input handling
 @Entity
 @Table(name = "author")
 public class Author {
@@ -12,16 +17,24 @@ public class Author {
     private Integer authorId;
 
     @Column(name = "first_name", nullable = false)
+    @NotBlank(message = "First name is required")
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
+    @NotBlank(message = "Last name is required")
     private String lastName;
 
     @Column(name = "biography", columnDefinition = "TEXT")
+    @NotBlank(message = "Biography is required")
     private String biography;
 
     @Column(name = "publisher")
+    @NotBlank(message = "Publisher is required")
     private String publisher;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Book> books;
 
     // Default constructor
     public Author() {}

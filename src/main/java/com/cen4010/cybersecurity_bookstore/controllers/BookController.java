@@ -9,21 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.cen4010.cybersecurity_bookstore.models.Book;
 import com.cen4010.cybersecurity_bookstore.repositories.BookRepository;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.validation.Valid;
 
@@ -33,12 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
-=======
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 
 import javax.management.RuntimeErrorException;
 
@@ -62,10 +45,6 @@ public class BookController {
         return bookRepository.findAll();
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
     // Sprint 3: Methods for easy book creation and deletion for administrators - Michael Scott
     //  CREATE
     @PostMapping("/create")
@@ -75,7 +54,7 @@ public class BookController {
     }
 
     // READ
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public Book getBookById(@PathVariable Integer id) {
         return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
     }
@@ -98,6 +77,7 @@ public class BookController {
         book.setGenre(bookDetails.getGenre());
         book.setPublisher(bookDetails.getPublisher());
         book.setYearPublished(bookDetails.getYearPublished());
+        book.setAuthor(bookDetails.getAuthor());
         
         //Sprint 4 - Input Validation - Michael Scott
         Book updatedBook = bookRepository.save(book);
@@ -109,10 +89,18 @@ public class BookController {
     public String deleteBook(@PathVariable Integer id){
         bookRepository.deleteById(id);
         return "Book with ID " + id + " has been deleted.";
-<<<<<<< HEAD
-=======
-=======
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
+    }
+
+    //GET books by author - Sprint 5 (Michael Scott)
+    @GetMapping("/author/{authorId}")
+    public ResponseEntity<List<Book>> getBooksByAuthor( @PathVariable Integer authorId) {
+        List<Book> books = bookRepository.findByAuthorAuthorId(authorId);
+        if (books.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(books);
+    }
+    
     //sprint 3: GET books by genre
     //endpoint: GET/api/books/genre/{genre}
     @GetMapping("/genre/{genre}")
@@ -288,10 +276,5 @@ public class BookController {
             response.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-<<<<<<< HEAD
->>>>>>> origin/main
-=======
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
     }
-    
-}
+}    

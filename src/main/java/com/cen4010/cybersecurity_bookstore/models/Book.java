@@ -1,15 +1,10 @@
 package com.cen4010.cybersecurity_bookstore.models;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-=======
->>>>>>> origin/main
-=======
-import jakarta.validation.constraints.*;
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
 
 //Sprint 2 - Book Browsing Feature
 //This entity shows a book in the system and is basically the core for my book browsing feature.
@@ -27,33 +23,8 @@ import jakarta.persistence.Table;
 //it allows me to keep the browsing and sorting logic simple and efficient
 
 //Sprint 3 planning:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
 // I plan to create a function that allows for user input to easily create a book, input the details and store it into the database.
-// This will be a crucial feature for filling out the database with information
-
-// Sprint 4:
-// I will add input validation so that data inputted into the following fields is checked and incorrect data is rejected.
-<<<<<<< HEAD
-=======
-=======
-
-
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
-//This entity is going to be expanded through relationships with entities like Rating and Comment
-//to support average ratings and reviews from the user. Also, the relationship with Publisher
-//will be used to implement the publisher based discount
-
-//Entity relationships:
-//each book is associated with a single author and publosher
-//a book can have many ratings and comments
-
-<<<<<<< HEAD
->>>>>>> origin/main
-=======
->>>>>>> beeecaf964b92ea40d3f2c8953897ab11b539899
+// This will be a crucial feature for filling out the database with information.
 @Entity
 @Table(name = "book")
 public class Book {
@@ -102,6 +73,12 @@ public class Book {
     @Column(name = "average_rating")
     private BigDecimal averageRating;
 
+    //Sprint 5
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id")
+    @JsonManagedReference
+    private Author author;
+
     // Default constructor (required by JPA)
     public Book() {}
 
@@ -135,4 +112,8 @@ public class Book {
 
     public BigDecimal getAverageRating() { return averageRating; }
     public void setAverageRating(BigDecimal averageRating) { this.averageRating = averageRating; }
+
+    //Sprint 5
+    public Author getAuthor() {return author; }
+    public void setAuthor(Author author) {this.author = author; }
 }
