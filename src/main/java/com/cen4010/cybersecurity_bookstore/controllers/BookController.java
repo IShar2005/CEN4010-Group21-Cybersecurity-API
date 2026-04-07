@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cen4010.cybersecurity_bookstore.models.Book;
 import com.cen4010.cybersecurity_bookstore.repositories.BookRepository;
 
-
-
 @RestController
 @RequestMapping("/api/books")
 @CrossOrigin(origins = "*")
@@ -37,7 +35,7 @@ public class BookController {
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
-
+    
     //sprint 3: GET books by genre
     //endpoint: GET/api/books/genre/{genre}
     @GetMapping("/genre/{genre}")
