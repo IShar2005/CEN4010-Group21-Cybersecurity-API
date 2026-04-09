@@ -26,10 +26,35 @@ public class CommentController {
         return commentRepository.save(comment);
     }
 
+    // PUT: Update comments for a specific book
+    @PutMapping("/{id}")
+    public Comment updateComment(@PathVariable Long id, @RequestBody Comment updatedComment) {
+        Comment existingComment = commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found with id " + id));
+
+        existingComment.setContent(updatedComment.getContent());
+        existingComment.toString(updatedComment.getRating());
+
+        // Optional: update timestamp when edited
+        existingComment.setCreatedAt(LocalDateTime.now());
+
+        return commentRepository.save(existingComment);
+    }
+
     // GET: Retrieve comments for a specific book
     @GetMapping("/book/{bookId}")
     public List<Comment> getCommentsByBook(@PathVariable Long bookId) {
 
         return commentRepository.findByBookId(bookId);
+    }
+    // DELETE: Delete comments on specific book
+    @DeleteMapping("/{id}")
+    public String deleteComment(@PathVariable Long id) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found with id " + id));
+
+        commentRepository.delete(comment);
+
+        return "Comment deleted successfully!";
     }
 }

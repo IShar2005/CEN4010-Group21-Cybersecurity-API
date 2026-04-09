@@ -1,5 +1,6 @@
 package com.cen4010.cybersecurity_bookstore.controllers;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +108,47 @@ public class BookController {
     }
 
     //to do in sprint 4:
-    //add GET endpoint for rating
+
+    // sprint 4: GET books by rating
+// endpoint: GET /api/books/rating/{rating}
+
+    @GetMapping("/rating/{rating}")
+    public ResponseEntity<Map<String, Object>> getBooksByRating(@PathVariable double rating) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            // validate rating
+            if (rating < 0 || rating > 5) {
+                response.put("success", false);
+                response.put("error", "Rating must be between 0 and 5");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            }
+
+            // get books from database
+            List<Book> books = bookRepository.findByAverageRatingGreaterThanEqualOrderByAverageRatingDesc(BigDecimal.valueOf(rating));
+
+            // check if any books found
+            if (books.isEmpty()) {
+                response.put("success", false);
+                response.put("message", "No books found with rating >= " + rating);
+                response.put("data", books);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            // return success
+            response.put("success", true);
+            response.put("count", books.size());
+            response.put("minRating", rating);
+            response.put("data", books);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", "Internal server error");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
     //add PUT endpoint for discount
     
 }

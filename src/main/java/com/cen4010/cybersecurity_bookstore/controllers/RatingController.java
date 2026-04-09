@@ -16,34 +16,39 @@ public class RatingController {
         this.ratingRepository = ratingRepository;
     }
 
-    // Add a rating
+    // POST a rating
     @PostMapping
     public Rating createRating(@RequestBody Rating rating) {
         return ratingRepository.save(rating);
     }
 
-    // Get ratings for a book
+    // GET ratings for a book
     @GetMapping("/book/{bookId}")
     public List<Rating> getRatingsByBook(@PathVariable Long bookId) {
         return ratingRepository.findByBookId(bookId);
     }
 
-    // Get average rating for a book
-    @GetMapping("/average/{bookId}")
-    public double getAverageRating(@PathVariable Long bookId) {
+    // PUT ratings for a book
+    @PutMapping("/{id}")
+    public Rating updateRating(@PathVariable Long id, @RequestBody Rating updatedRating) {
+        Rating existingRating = ratingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rating not found with id " + id));
 
-        List<Rating> ratings = ratingRepository.findByBookId(bookId);
+        existingRating.setScore(updatedRating.getScore());
+        existingRating.setBookId(updatedRating.getBookId()); // optional if you allow changing book
 
-        if (ratings.isEmpty()) {
-            return 0.0;
-        }
-
-        double sum = 0;
-
-        for (Rating r : ratings) {
-            sum += r.getScore();
-        }
-
-        return sum / ratings.size();
+        return ratingRepository.save(existingRating);
     }
+
+    // DELETE ratings for book
+    @DeleteMapping("/{id}")
+    public String deleteRating(@PathVariable Long id) {
+        Rating rating = ratingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rating not found with id " + id));
+
+        ratingRepository.delete(rating);
+
+        return "Rating deleted successfully!";
+    }
+
 }

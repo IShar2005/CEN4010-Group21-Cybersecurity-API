@@ -1,5 +1,6 @@
 package com.cen4010.cybersecurity_bookstore.repositories;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     //sprint 3: get top 10 bestsellers, organized by copies sold
     List<Book> findTop10ByOrderByCopiesSoldDesc();
+
+    List<Book> findByAverageRatingGreaterThanEqualOrderByAverageRatingDesc(BigDecimal bigDecimal);
 
     //To do in sprint 4 add the rating method
     //List<Book> findBYAverageRatingGreaterThanEqual(BigDecimal minRating));

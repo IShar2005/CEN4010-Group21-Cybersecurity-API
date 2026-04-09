@@ -25,21 +25,55 @@ public class Comment {
     private LocalDateTime createdAt;
 
     // Default constructor
-    public Comment() {}
+    public Comment() {
+    }
 
     // Getters and Setters
-    public Integer getCommentId() { return commentId; }
-    public void setCommentId(Integer commentId) { this.commentId = commentId; }
+    public Integer getCommentId() {
+        return commentId;
+    }
 
-    public Integer getUserId() { return userId; }
-    public void setUserId(Integer userId) { this.userId = userId; }
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
+    }
 
-    public Integer getBookId() { return bookId; }
-    public void setBookId(Integer bookId) { this.bookId = bookId; }
+    public Integer getUserId() {
+        return userId;
+    }
 
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Object getRating() {
+        return null;
+    }
+
+
+    public void toString(Object rating) {
+    }
 }
